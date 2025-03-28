@@ -4,8 +4,8 @@ This project is an AI-powered chef assistant built using **Groq Agents** and **S
 
 ## 🚀 Installation & Setup  
 
-### **1️⃣ Clone the Repository**  
 ```bash
+1️⃣ Clone the Repository**  
 git clone https://github.com/balc1/chef-ai.git
 cd chef-ai
 2️⃣ Install Dependencies
