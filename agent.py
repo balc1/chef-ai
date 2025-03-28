@@ -8,30 +8,38 @@ print("Çalışma dizini:", os.getcwd())
 load_dotenv()
 
 if "GROQ_API_KEY" not in os.environ:
-    os.environ["GROQ_API_KEY"] = getpass.getpass("Enter your Groq Apı Key: ")
-# Desteklenen diller için malzeme listesi
+    api_key = st.text_input("Enter your Groq API Key:", type="password")
+    if api_key:
+        os.environ["GROQ_API_KEY"] = api_key
+        st.success("API Key set successfully! You can now generate posts.")
+    else:
+        st.warning("Please enter a valid API Key.")
+    if not api_key:
+        st.stop()    
 
-ingredients_dict = {
-    "Turkish": ["domates", "biber", "soğan", "sarımsak", "tavuk", "zeytinyağı", "peynir", "yumurta"],
-    "English": ["tomato", "pepper", "onion", "garlic", "chicken", "olive oil", "cheese", "egg"],
-    "French": ["tomate", "poivron", "oignon", "ail", "poulet", "huile d'olive", "fromage", "œuf"],
-    "German": ["Tomate", "Paprika", "Zwiebel", "Knoblauch", "Hähnchen", "Olivenöl", "Käse", "Ei"]
-}
+
+# API anahtarını doğrula ve kaydet
+
+
+# API anahtarı olmadan devam edemez
+
+
+ingredients_list = (
+    "Turkish",
+    "English",
+    "French",
+    "German")
 
 # Uygulama başlığı
 st.title("🍽️ AI Chef: Gourmet Recipe Generator")
 
 # Dil seçimi
-language = st.selectbox("🌍 Choose Language:", list(ingredients_dict.keys()))
+language = st.selectbox("🌍 Choose Language:", list(ingredients_list))
 
 # Kullanıcı için autocomplete önerileri
 ingredients = st.text_input("🍅 Enter an ingredient:", "")
 
 # Kullanıcı girdisine göre öneri listesi gösterme
-if ingredients:
-    suggestions = [word for word in ingredients_dict[language] if word.startswith(ingredients.lower())]
-    if suggestions:
-        st.write("🔍 Suggestions:", ", ".join(suggestions))
 
 # Kullanıcının seçtiği malzemeler
 #ingredients = st.text_area("📝 Enter ingredients (comma separated):")
@@ -55,11 +63,11 @@ prompt = f"""
 
     ### Example Input:  
     - Ingredients: **Chicken breast, garlic, olive oil, lemon, parsley, butter**  
-    - Language: **French**  
+    - Language: **English**  
 
     ### Example Output:  
     - Recipe Name: **Poulet au Beurre Citronné avec Ail et Persil**  
-    - Introduction: *A delicate yet flavorful dish inspired by French cuisine, featuring pan-seared chicken infused with garlic, lemon, and butter, bringing out a perfect balance of richness and freshness...*  
+    - Introduction: *A delicate yet flavorful dish inspired by English cuisine, featuring pan-seared chicken infused with garlic, lemon, and butter, bringing out a perfect balance of richness and freshness...*  
     - Ingredients:  
     - 2 boneless, skinless chicken breasts  
     - 2 cloves of garlic, finely minced  
